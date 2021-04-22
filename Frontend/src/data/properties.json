@@ -1,0 +1,47 @@
+[
+  {
+    "Id": 1,
+    "Name": "Jagtvej",
+    "nRooms": "2 Rooms",
+    "Type": "Apartment",
+    "Size": "68 m2",
+    "ZipCode": "5000 Odense C",
+    "Price": "6.700 kr"
+  },
+  {
+    "Id": 2,
+    "Name": "Dragebakken",
+    "nRooms": "4 Room",
+    "Type": "House",
+    "Size": "110 m2",
+    "ZipCode": "5250 Odense SV",
+    "Price": "10.000 kr"
+  },
+  {
+    "Id": 3,
+    "Name": "Schacksgade",
+    "nRooms": "3 Rooms",
+    "Type": "Apartment",
+    "Size": "84 m2",
+    "ZipCode": "5000 Odense C",
+    "Price": "5.400 kr"
+  },
+  {
+    "Id": 4,
+    "Name": "Soluret",
+    "nRooms": "5 Rooms",
+    "Type": "House",
+    "Size": "122 m2",
+    "ZipCode": "5230 Odense M",
+    "Price": "12.000 kr"
+  },
+  {
+    "Id": 5,
+    "Name": "Test",
+    "nRooms": "2 Rooms",
+    "Type": "Apartment",
+    "Size": "68 m2",
+    "ZipCode": "5000 Odense C",
+    "Price": "6700 kr"
+  }
+]
