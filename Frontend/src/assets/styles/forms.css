@@ -5,3 +5,15 @@
 .error-block {
   color: red;
 }
+
+.btn-group > label[ng-reflect-btn-radio] {
+  border-radius: 44px;
+  padding: 0 15px;
+  line-height: 30px;
+}
+
+.btn-group > label[ng-reflect-model] {
+  border-radius: 44px;
+  padding: 0 15px;
+  line-height: 30px;
+}
