@@ -1,8 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
-import { IProperty } from '../IProperty.interface';
+import { AlertifyService } from 'src/app/services/alertify.service';
+import { HousingService } from 'src/app/services/housing.service';
+import { IProperty } from 'src/model/IProperty';
+import { Property } from 'src/model/Property';
 
 @Component({
   selector: 'app-add-property',
@@ -10,63 +18,230 @@ import { IProperty } from '../IProperty.interface';
   styleUrls: ['./add-property.component.css'],
 })
 export class AddPropertyComponent implements OnInit {
-  @ViewChild('Form') addPropertyForm: NgForm;
   @ViewChild('formTabs') formTabs: TabsetComponent;
+  addPropertyForm: FormGroup;
+  nextClicked: boolean;
+  property = new Property();
 
-  //
-  propertyTypes: Array<string> = ['House', 'Apartment', 'Room'];
+  propertyTypes: Array<string> = ['House', 'Apartment'];
   furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
-  typeOfRooms: any = {
-    bathroom: true,
-    kitchen: true,
-    bedroom: false,
-    livingRoom: false,
-  };
-
-  facilities: any = {
-    elevator: false,
-    animalsAllowed: false,
-    studentResident: false,
-    balcony: false,
-    parkingSpot: false,
-  };
 
   propertyView: IProperty = {
     Id: null,
     SellRent: null,
     Address: '',
-    Address2: '',
-    FloorLevel: '',
-    PostalCode: null,
-    NumberOfRooms: null,
-    TypeOfRooms: ['', '', '', ''],
     MonthlyRent: null,
-    PType: '',
-    fType: null,
     Aconto: null,
     SecurityDeposit: null,
+    PType: '',
+    FType: null,
     BuiltArea: null,
-    Posession: '',
-    PostedOn: null,
-    Description: '',
+    Description: null,
+    FloorLevel: null,
+    PostalCode: null,
+    City: null,
+    ReadyToMove: null,
+    NumberOfRooms: null,
+    PosessionOn: null,
     AgeOfProperty: null,
-    Facilities: [''],
+    Posession: null,
   };
 
-  constructor(private router: Router) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private housingService: HousingService,
+    private alertify: AlertifyService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.CreateAddPropertyForm();
+  }
+
+  CreateAddPropertyForm() {
+    this.addPropertyForm = this.fb.group({
+      BasicInfo: this.fb.group({
+        SellRent: ['1', Validators.required],
+        NumberOfRooms: [null, Validators.required],
+        PType: [null, Validators.required],
+        FType: [null, Validators.required],
+      }),
+      PriceInfo: this.fb.group({
+        MonthlyRent: [null, Validators.required],
+        Aconto: [null, Validators.required],
+        SecurityDeposit: [null, Validators.required],
+      }),
+      AddressInfo: this.fb.group({
+        Address: [null, Validators.required],
+        FloorLevel: [null],
+        PostalCode: [null, Validators.required],
+        BuiltArea: [null, Validators.required],
+        City: [null, Validators.required],
+      }),
+      OtherInfo: this.fb.group({
+        ReadyToMove: [null, Validators.required],
+        PosessionOn: [null],
+        Posession: [null],
+        AgeOfProperty: [null],
+        Description: [null],
+      }),
+    });
+  }
+
+  //Getter Methods for tabs
+  get BasicInfo() {
+    return this.addPropertyForm.controls.BasicInfo as FormGroup;
+  }
+
+  get PriceInfo() {
+    return this.addPropertyForm.controls.PriceInfo as FormGroup;
+  }
+
+  get AddressInfo() {
+    return this.addPropertyForm.controls.AddressInfo as FormGroup;
+  }
+
+  get OtherInfo() {
+    return this.addPropertyForm.controls.OtherInfo as FormGroup;
+  }
+
+  //Getter Methods for contain of tabs
+
+  get SellRent() {
+    return this.BasicInfo.controls.SellRent as FormControl;
+  }
+
+  get NumberOfRooms() {
+    return this.BasicInfo.controls.NumberOfRooms as FormControl;
+  }
+
+  get PType() {
+    return this.BasicInfo.controls.PType as FormControl;
+  }
+
+  get FType() {
+    return this.BasicInfo.controls.FType as FormControl;
+  }
+
+  get MonthlyRent() {
+    return this.PriceInfo.controls.MonthlyRent as FormControl;
+  }
+
+  get Aconto() {
+    return this.PriceInfo.controls.Aconto as FormControl;
+  }
+
+  get SecurityDeposit() {
+    return this.PriceInfo.controls.SecurityDeposit as FormControl;
+  }
+
+  get Address() {
+    return this.AddressInfo.controls.Address as FormControl;
+  }
+
+  get FloorLevel() {
+    return this.AddressInfo.controls.FloorLevel as FormControl;
+  }
+
+  get PostalCode() {
+    return this.AddressInfo.controls.PostalCode as FormControl;
+  }
+
+  get BuiltArea() {
+    return this.AddressInfo.controls.BuiltArea as FormControl;
+  }
+
+  get City() {
+    return this.AddressInfo.controls.City as FormControl;
+  }
+
+  get ReadyToMove() {
+    return this.OtherInfo.controls.ReadyToMove as FormControl;
+  }
+
+  get PosessionOn() {
+    return this.OtherInfo.controls.PosessionOn as FormControl;
+  }
+
+  get AgeOfProperty() {
+    return this.OtherInfo.controls.AgeOfProperty as FormControl;
+  }
+
+  get Description() {
+    return this.OtherInfo.controls.Description as FormControl;
+  }
 
   onBack() {
     this.router.navigate(['/']);
   }
 
   onSubmit() {
-    console.log('Congrats, form Submitted');
-    console.log(this.addPropertyForm);
+    this.nextClicked = true;
+    if (this.allTabsValid()) {
+      this.mapProperty();
+      this.housingService.addProperty(this.property);
+      this.alertify.success('Congrats, your property have been listed');
+
+      if (this.SellRent.value === '2') {
+        this.router.navigate(['/rent-property']);
+      } else {
+        this.router.navigate(['/']);
+      }
+    } else {
+      this.alertify.error(
+        'Please review the form and provide all valid entries'
+      );
+    }
   }
 
-  selectTab(tabId: number) {
-    this.formTabs.tabs[tabId].active = true;
+  mapProperty(): void {
+    this.property.Id = this.housingService.newPropertyId();
+    this.property.SellRent = +this.SellRent.value;
+    this.property.NumberOfRooms = this.NumberOfRooms.value;
+    this.property.PType = this.PType.value;
+    this.property.FType = this.FType.value;
+    this.property.MonthlyRent = this.MonthlyRent.value;
+    this.property.Aconto = this.Aconto.value;
+    this.property.SecurityDeposit = this.SecurityDeposit.value;
+    this.property.Address = this.Address.value;
+    this.property.FloorLevel = this.FloorLevel.value;
+    this.property.PostalCode = this.PostalCode.value;
+    this.property.BuiltArea = this.BuiltArea.value;
+    this.property.City = this.City.value;
+    this.property.ReadyToMove = this.ReadyToMove.value;
+    this.property.PosessionOn = this.PosessionOn.value;
+    this.property.AgeOfProperty = this.AgeOfProperty.value;
+    this.property.Description = this.Description.value;
+    // this.property.PostedOn = new Date().toString();
+  }
+
+  allTabsValid(): boolean {
+    if (this.BasicInfo.invalid) {
+      this.formTabs.tabs[0].active = true;
+      return false;
+    }
+
+    if (this.PriceInfo.invalid) {
+      this.formTabs.tabs[1].active = true;
+      return false;
+    }
+
+    if (this.AddressInfo.invalid) {
+      this.formTabs.tabs[2].active = true;
+      return false;
+    }
+
+    if (this.OtherInfo.invalid) {
+      this.formTabs.tabs[3].active = true;
+      return false;
+    }
+    return true;
+  }
+
+  selectTab(NextTabId: number, IsCurrentTabValid: boolean) {
+    this.nextClicked = true;
+    if (IsCurrentTabValid) {
+      this.formTabs.tabs[NextTabId].active = true;
+    }
   }
 }
