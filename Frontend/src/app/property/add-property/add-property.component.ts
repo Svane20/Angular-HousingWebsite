@@ -25,6 +25,7 @@ export class AddPropertyComponent implements OnInit {
 
   propertyTypes: Array<string> = ['House', 'Apartment'];
   furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
+  cityList: any[];
 
   propertyView: IProperty = {
     Id: null,
@@ -39,7 +40,7 @@ export class AddPropertyComponent implements OnInit {
     Description: null,
     FloorLevel: null,
     PostalCode: null,
-    City: null,
+    City: '',
     ReadyToMove: null,
     NumberOfRooms: null,
     PosessionOn: null,
@@ -56,6 +57,10 @@ export class AddPropertyComponent implements OnInit {
 
   ngOnInit() {
     this.CreateAddPropertyForm();
+    this.housingService.getAllCities().subscribe((data) => {
+      this.cityList = data;
+      console.log(data);
+    });
   }
 
   CreateAddPropertyForm() {
