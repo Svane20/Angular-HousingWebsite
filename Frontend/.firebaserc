@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "housingspa-4a428"
+  },
+  "targets": {
+    "housingspa-4a428": {
+      "hosting": {
+        "client": [
+          "housingspa-4a428"
+        ]
+      }
+    }
+  }
+}
