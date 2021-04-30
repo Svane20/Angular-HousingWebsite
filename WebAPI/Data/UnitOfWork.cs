@@ -12,9 +12,9 @@ namespace WebAPI.Data
         {
             this.dc = dc;
         }
-        public ICityRepository CityRepository => 
-            new CityRepository(dc);
+        public ICityRepository CityRepository => new CityRepository(dc);
 
+        public IUserRepository UserRepository => new UserRepository(dc);
 
         public async Task<bool> SaveAsync()
         {
