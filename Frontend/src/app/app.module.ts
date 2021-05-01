@@ -13,7 +13,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { PropertyDetailComponent } from './property/property-detail/property-detail.component';
 import { UserLoginComponent } from './user/user-login/user-login.component';
 import { UserRegisterComponent } from './user/user-register/user-register.component';
-import { UsersService } from './services/users.service';
 import { AlertifyService } from './services/alertify.service';
 import { AuthService } from './services/auth.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -67,7 +66,6 @@ const appRoutes: Routes = [
   ],
   providers: [
     HousingService,
-    UsersService,
     AlertifyService,
     AuthService,
     PropertyDetailResolverService,

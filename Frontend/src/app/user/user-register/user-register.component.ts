@@ -5,10 +5,10 @@ import {
   Validators,
   FormBuilder,
 } from '@angular/forms';
-import { UsersService } from 'src/app/services/users.service';
 import { UserForRegister } from 'src/model/user';
 import { AlertifyService } from 'src/app/services/alertify.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-register',
@@ -23,6 +23,7 @@ export class UserRegisterComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private router: Router,
     private alertify: AlertifyService
   ) {}
 
@@ -77,6 +78,7 @@ export class UserRegisterComponent implements OnInit {
       this.authService.registerUser(this.userData()).subscribe(() => {
         this.onReset();
         this.alertify.success('Congrats, you are successfully registered');
+        this.router.navigate(['/user/login']);
       });
     }
   }
