@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { AlertifyService } from 'src/app/services/alertify.service';
 import { HousingService } from 'src/app/services/housing.service';
 import { IProperty } from 'src/model/IProperty';
 
@@ -18,7 +19,8 @@ export class PropertyListComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private housingService: HousingService
+    private housingService: HousingService,
+    private alertify: AlertifyService
   ) {}
 
   ngOnInit(): void {
@@ -28,10 +30,9 @@ export class PropertyListComponent implements OnInit {
     this.housingService.getAllProperties(this.SellRent).subscribe(
       (data) => {
         this.properties = data;
-        console.log(data);
       },
       (error) => {
-        console.log(error);
+        this.alertify.error("Can't be accessed, please try again later");
       }
     );
   }
