@@ -4,7 +4,7 @@ export interface IProperty {
   Address: string;
   PType: string;
   FType: string;
-  MonthlyRent: number;
+  Price: number;
   Aconto: number;
   SecurityDeposit: number;
   BuiltArea: number;
@@ -16,6 +16,6 @@ export interface IProperty {
   NumberOfRooms: number;
   PosessionOn?: string;
   AgeOfProperty: string;
-  Posession: string;
+  Posession?: string;
   Image?: string;
 }

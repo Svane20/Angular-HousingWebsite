@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebAPI.Dtos;
+using WebAPI.Errors;
+using WebAPI.Extensions;
 using WebAPI.Interfaces;
 using WebAPI.Models;
 
@@ -27,8 +29,13 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Login(LoginReqDto loginReq) {
             var user = await uow.UserRepository.Authenticate(loginReq.Username, loginReq.Password);
 
-            if(user == null) {
-                return Unauthorized();
+            ApiError apiError = new ApiError();
+
+            if (user == null)
+            {
+                apiError.ErrorCode=Unauthorized().StatusCode;
+                apiError.ErrorMessage="Invalid user name or password";
+                return Unauthorized(apiError);
             }
 
             var loginRes = new LoginResDto();
@@ -39,9 +46,19 @@ namespace WebAPI.Controllers
 
         [HttpPost("register")]
         public async Task<IActionResult> Register(LoginReqDto loginReq) {
-            if(await uow.UserRepository.UserAlreadyExists(loginReq.Username)) {
-                return BadRequest("User already exists");
-            }
+            ApiError apiError = new ApiError();
+
+            if(loginReq.Username.IsEmpty() || loginReq.Password.IsEmpty()) {
+                    apiError.ErrorCode=BadRequest().StatusCode;
+                    apiError.ErrorMessage="Username or password can not be blank";                    
+                    return BadRequest(apiError);
+            }                    
+
+            if (await uow.UserRepository.UserAlreadyExists(loginReq.Username)) {
+                apiError.ErrorCode=BadRequest().StatusCode;
+                apiError.ErrorMessage="User already exists, please try different user name";
+                return BadRequest(apiError);
+            } 
 
             uow.UserRepository.Register(loginReq.Username, loginReq.Password);
             await uow.SaveAsync();

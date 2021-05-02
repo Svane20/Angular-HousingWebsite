@@ -31,7 +31,7 @@ export class AddPropertyComponent implements OnInit {
     Id: null,
     SellRent: null,
     Address: '',
-    MonthlyRent: null,
+    Price: null,
     Aconto: null,
     SecurityDeposit: null,
     PType: '',
@@ -45,7 +45,6 @@ export class AddPropertyComponent implements OnInit {
     NumberOfRooms: null,
     PosessionOn: null,
     AgeOfProperty: null,
-    Posession: null,
   };
 
   constructor(
@@ -71,7 +70,7 @@ export class AddPropertyComponent implements OnInit {
         FType: [null, Validators.required],
       }),
       PriceInfo: this.fb.group({
-        MonthlyRent: [null, Validators.required],
+        Price: [null, Validators.required],
         Aconto: [null, Validators.required],
         SecurityDeposit: [null, Validators.required],
       }),
@@ -85,7 +84,6 @@ export class AddPropertyComponent implements OnInit {
       OtherInfo: this.fb.group({
         ReadyToMove: [null, Validators.required],
         PosessionOn: [null],
-        Posession: [null],
         AgeOfProperty: [null],
         Description: [null],
       }),
@@ -127,8 +125,8 @@ export class AddPropertyComponent implements OnInit {
     return this.BasicInfo.controls.FType as FormControl;
   }
 
-  get MonthlyRent() {
-    return this.PriceInfo.controls.MonthlyRent as FormControl;
+  get Price() {
+    return this.PriceInfo.controls.Price as FormControl;
   }
 
   get Aconto() {
@@ -204,7 +202,7 @@ export class AddPropertyComponent implements OnInit {
     this.property.NumberOfRooms = this.NumberOfRooms.value;
     this.property.PType = this.PType.value;
     this.property.FType = this.FType.value;
-    this.property.MonthlyRent = this.MonthlyRent.value;
+    this.property.Price = this.Price.value;
     this.property.Aconto = this.Aconto.value;
     this.property.SecurityDeposit = this.SecurityDeposit.value;
     this.property.Address = this.Address.value;
@@ -213,10 +211,10 @@ export class AddPropertyComponent implements OnInit {
     this.property.BuiltArea = this.BuiltArea.value;
     this.property.City = this.City.value;
     this.property.ReadyToMove = this.ReadyToMove.value;
-    this.property.PosessionOn = this.PosessionOn.value;
+    this.property.Posession = this.PosessionOn.value;
     this.property.AgeOfProperty = this.AgeOfProperty.value;
     this.property.Description = this.Description.value;
-    // this.property.PostedOn = new Date().toString();
+    this.property.PostedOn = new Date().toString();
   }
 
   allTabsValid(): boolean {

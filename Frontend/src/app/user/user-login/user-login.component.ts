@@ -20,8 +20,9 @@ export class UserLoginComponent implements OnInit {
   ngOnInit() {}
 
   onLogin(loginForm: NgForm) {
-    this.authService.authUser(loginForm.value).subscribe(
-      (response: UserForLogin) => {
+    this.authService
+      .authUser(loginForm.value)
+      .subscribe((response: UserForLogin) => {
         const user = response;
         if (user) {
           localStorage.setItem('token', user.token);
@@ -29,10 +30,6 @@ export class UserLoginComponent implements OnInit {
           this.alertify.success('Login Successful');
           this.router.navigate(['/']);
         }
-      },
-      (error) => {
-        this.alertify.error(error.error);
-      }
-    );
+      });
   }
 }

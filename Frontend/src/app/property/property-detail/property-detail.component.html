@@ -18,7 +18,7 @@
         <div>
           <strong
             >{{ property.NumberOfRooms }} Room {{ property.PType }} @
-            {{ property.MonthlyRent }} DKK</strong
+            {{ property.Price }} DKK</strong
           >
         </div>
         <div>
@@ -50,22 +50,21 @@
           <div class="row">
             <div class="col-sm-6">
               <div class="heading">
-                <strong>Project Name</strong>
-                <p>{{ property.Address }}</p>
-              </div>
-
-              <div class="heading">
                 <strong>Floor Number</strong>
                 <p>{{ property.FloorLevel }}</p>
               </div>
 
               <div class="heading">
                 <strong>Age of Property</strong>
+                <p *ngIf="property.AgeOfProperty === null">Not Defined</p>
                 <p>{{ property.AgeOfProperty }}</p>
               </div>
 
               <div class="heading">
                 <strong>Posession</strong>
+                <p class="mt-0" *ngIf="property.Posession === null">
+                  Ready To Move
+                </p>
                 <p>{{ property.Posession }}</p>
               </div>
             </div>
@@ -73,7 +72,7 @@
             <div class="col-sm-6">
               <div class="heading">
                 <strong>Price</strong>
-                <p>{{ property.MonthlyRent }}</p>
+                <p>{{ property.Price }}</p>
               </div>
 
               <div class="heading">
@@ -98,10 +97,16 @@
           <div class="col-sm-12">
             <h1>Address</h1>
             <div class="heading">
-              <strong>{{ property.Address }}</strong
-              ><br />
-              <strong>{{ property.City }}</strong> <br />
-              <strong>{{ property.PostalCode }}</strong>
+              <strong>Street</strong>
+              <p>{{ property.Address }}</p>
+            </div>
+            <div class="heading">
+              <strong>City</strong>
+              <p>{{ property.City }}</p>
+            </div>
+            <div class="heading">
+              <strong>Postal Code</strong>
+              <p>{{ property.PostalCode }}</p>
             </div>
           </div>
         </tab>

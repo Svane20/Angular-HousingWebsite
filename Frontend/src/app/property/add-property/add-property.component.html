@@ -127,15 +127,12 @@
                   <input
                     type="text"
                     class="form-control"
-                    formControlName="MonthlyRent"
-                    [(ngModel)]="propertyView.MonthlyRent"
+                    formControlName="Price"
+                    [(ngModel)]="propertyView.Price"
                   />
                   <div
                     class="error-block"
-                    *ngIf="
-                      MonthlyRent.invalid &&
-                      (nextClicked || MonthlyRent.touched)
-                    "
+                    *ngIf="Price.invalid && (nextClicked || Price.touched)"
                   >
                     Please enter
                     <span *ngIf="SellRent.value == 1; else ShowRent"
@@ -238,6 +235,14 @@
                     formControlName="PostalCode"
                     [(ngModel)]="propertyView.PostalCode"
                   />
+                  <div
+                    class="error-block"
+                    *ngIf="
+                      PostalCode.invalid && (nextClicked || PostalCode.touched)
+                    "
+                  >
+                    Please provide Postal code
+                  </div>
                 </div>
 
                 <div class="form-group col-3">
@@ -312,7 +317,7 @@
                       btnRadio="1"
                       tabindex="0"
                       role="button"
-                      name="RTM"
+                      name="ReadyToMove"
                       >Yes
                     </label>
                     <label
@@ -320,7 +325,7 @@
                       btnRadio="2"
                       tabindex="0"
                       role="button"
-                      name="RTM"
+                      name="ReadyToMove"
                       >No
                     </label>
                   </div>
@@ -382,8 +387,8 @@
                   </button>
                 </div>
               </tab>
-              <tab heading="Photos"
-                ><div class="form-group col-12">
+              <tab heading="Photos">
+                <div class="form-group col-12">
                   <div class="photo-control">
                     <button class="mt-5" type="button">Upload</button> <br />
                     This is under construction

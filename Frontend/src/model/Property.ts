@@ -6,7 +6,7 @@ export class Property implements IProperty {
   Address: string;
   PType: string;
   FType: string;
-  MonthlyRent: number;
+  Price: number;
   Aconto: number;
   SecurityDeposit: number;
   BuiltArea: number;
@@ -16,7 +16,7 @@ export class Property implements IProperty {
   Description?: string;
   ReadyToMove?: number;
   NumberOfRooms: number;
-  Posession: string;
+  Posession?: string;
   PosessionOn?: string;
   AgeOfProperty: string;
   Image?: string;
